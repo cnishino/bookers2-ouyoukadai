@@ -8,11 +8,6 @@ class UsersController < ApplicationController
     @book = Book.new
     @today_book = @books.created_today #今日の投稿数
     @yesterday_book = @books.created_yesterday #昨日の投稿数
-    # @day2_ago_boo = @books.created_2day_ago #2日前の投稿数
-    # @day3_ago_book = @books.created_3day_ago #3日前の投稿数
-    # @day4_ago_book = @books.created_4day_ago #4日前の投稿数
-    # @day5_ago_book = @books.created_5day_ago #5日前の投稿数
-    # @day6_ago_book = @books.created_6day_ago #6日前の投稿数
     @this_week_book = @books.created_this_week #今週の投稿数
     @last_week_book = @books.created_last_week #先週の投稿数
   end
@@ -31,6 +26,18 @@ class UsersController < ApplicationController
       redirect_to user_path(@user.id), notice: "You have updated user successfully."
     else
       render "edit"
+    end
+  end
+
+  def search
+    @user = User.find(params[:user_id])
+    @books = @user.books
+    @book = Book.new
+    if params[:created_at] == ""
+      @search_book = "日付を選択してください"
+    else
+      created_at = params[:created_at]
+      @search_book = @books.where(["created_at LIKE ? ", "#{created_at}%"]).count#.countメソッドで検索してヒットした本を投稿した日付の投稿数を@search_bookで定義
     end
   end
 
