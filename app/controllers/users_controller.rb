@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     @yesterday_book = @books.created_yesterday #昨日の投稿数
     @this_week_book = @books.created_this_week #今週の投稿数
     @last_week_book = @books.created_last_week #先週の投稿数
+
   end
 
   def index
@@ -30,12 +31,18 @@ class UsersController < ApplicationController
   end
 
   def daily_posts
-    user = User.find(params[:user_id])
+    # user = User.find(params[:user_id])
+    # @search_books = user.books.where(created_at: params[:created_at].to_date.all_day)
+    # render :daily_posts_form
+
+    @user = User.find(params[:user_id])
+    @books = @user.books
+    @book = Book.new
     if params[:created_at] == ""
-      @books = "日付を選択してください"
+      @search_book = "日付を選択してください"
     else
-      @books = user.books.where(created_at: params[:created_at].to_date.all_day)
-      render :daily_posts_form
+      create_at = params[:created_at]
+      @search_book = @books.where(['created_at LIKE ? ', "#{create_at}%"]).count
     end
   end
 
