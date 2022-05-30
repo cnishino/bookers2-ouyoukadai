@@ -16,7 +16,7 @@
       <%= render 'books/index',books: @books, book_detail: @book_detail %>
 
       <div class="my-3">
-        <%= form_with url: user_daily_posts_path(@user), method: :get, class: "row justify-content-center", local: false do |f| %>
+        <%= form_with model: @user, url: user_daily_posts_path(@user), method: :get, class: "row justify-content-center", local: false do |f| %>
           <div class="col-auto">
             <%= f.date_field :created_at, class: "form-control" %>
           </div>
@@ -25,9 +25,9 @@
           </div>
         <% end %>
         <div id="search_result">
-          <%# if @search_book.present? %>
+          <% if @search_book.present? %>
             <%= render 'daily_posts', search_book: @search_book %>
-          <%# end %>
+          <% end %>
         </div>
       </div>
 

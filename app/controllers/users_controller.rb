@@ -11,6 +11,14 @@ class UsersController < ApplicationController
     @this_week_book = @books.created_this_week #今週の投稿数
     @last_week_book = @books.created_last_week #先週の投稿数
 
+    # unless params[:user].present? && paramus[:user][:created_at] == ""
+    #   @search_book = "日付を選択してください"
+    #   @search_book = "0"
+    # else
+    #   @create_at = params[:user][:created_at]
+    #   @search_book = @books.where(['created_at LIKE ? ', "#{@create_at}%"]).count
+    # end
+
   end
 
   def index
@@ -36,14 +44,15 @@ class UsersController < ApplicationController
     # render :daily_posts_form
 
     @user = User.find(params[:user_id])
-    @books = @user.books
     @book = Book.new
-    if params[:created_at] == ""
+    if params[:user][:created_at] == ""
       @search_book = "日付を選択してください"
+      @search_book = "0"
     else
-      create_at = params[:created_at]
-      @search_book = @books.where(['created_at LIKE ? ', "#{create_at}%"]).count
+      @create_at = params[:user][:created_at]
+      @search_book = @user.books.where(['created_at LIKE ? ', "#{@create_at}%"]).count
     end
+      # pp @search_book
   end
 
   private
