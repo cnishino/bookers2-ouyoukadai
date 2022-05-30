@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get "/search" => "searches#search", as: "search"
   post "/search" => "searches#search_data", as: "search_data"
 
+  resources :groups, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+
   resources :books, only: [:index,:show,:edit,:create,:destroy,:update] do
     resources :post_comments, only: [:create, :destroy]
     resource :favorites, only: [:create, :destroy]

@@ -24,6 +24,10 @@ class User < ApplicationRecord
   #閲覧者数表示のアソシエーション
   has_many :view_counts, dependent: :destroy
 
+  #グループ機能のアソシエーション
+  has_many :group_users, dependent: :destroy
+  has_many :groups, through: :group_users, dependent: :destroy
+
 
   has_one_attached :profile_image
 
